@@ -1,20 +1,22 @@
 'use client';
 
 import { useState } from 'react';
-// Importamos el puente que creamos ayer (ajusta la ruta según dónde esté tu carpeta lib)
-import { supabase } from '../../lib/supabase'; 
+import { supabase } from '../../lib/supabase';
+// 1. Importamos el enrutador oficial de Next.js
+import { useRouter } from 'next/navigation'; 
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [mensaje, setMensaje] = useState(''); // Nuevo estado para mostrar avisos en pantalla
+  const [mensaje, setMensaje] = useState('');
+  
+  // 2. Inicializamos el enrutador
+  const router = useRouter(); 
 
-  // Función Real para Iniciar Sesión
   const handleLogin = async (e) => {
     e.preventDefault();
     setMensaje('Iniciando sesión...');
     
-    // Le pedimos a Supabase que verifique el correo y la contraseña
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
@@ -23,17 +25,16 @@ export default function LoginPage() {
     if (error) {
       setMensaje('Error: ' + error.message);
     } else {
-      setMensaje('¡Sesión iniciada con éxito! (Pronto te llevaremos a tu ropero)');
-      // Más adelante, aquí pondremos el código para redirigir a la página principal
+      setMensaje('¡Sesión iniciada! Redirigiendo...');
+      // 3. Teletransportamos al usuario a la raíz de la app (el Ropero)
+      router.push('/'); 
     }
   };
 
-  // Función Real para Crear Cuenta
   const handleSignUp = async (e) => {
     e.preventDefault();
     setMensaje('Creando cuenta...');
 
-    // Le pedimos a Supabase que registre un nuevo usuario
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
@@ -82,7 +83,6 @@ export default function LoginPage() {
             />
           </div>
 
-          {/* Caja para mostrar mensajes de error o éxito */}
           {mensaje && (
             <div className="text-sm text-center font-medium text-blue-600 bg-blue-50 p-2 rounded">
               {mensaje}
