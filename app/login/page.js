@@ -1,8 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { supabase } from '../../lib/supabase';
-// 1. Importamos el enrutador oficial de Next.js
+import { supabase } from '../../lib/supabase'; // <--- Nota los 4 puntitos aquí
 import { useRouter } from 'next/navigation'; 
 
 export default function LoginPage() {
@@ -10,7 +9,6 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const [mensaje, setMensaje] = useState('');
   
-  // 2. Inicializamos el enrutador
   const router = useRouter(); 
 
   const handleLogin = async (e) => {
@@ -26,7 +24,6 @@ export default function LoginPage() {
       setMensaje('Error: ' + error.message);
     } else {
       setMensaje('¡Sesión iniciada! Redirigiendo...');
-      // 3. Teletransportamos al usuario a la raíz de la app (el Ropero)
       router.push('/'); 
     }
   };
@@ -56,53 +53,17 @@ export default function LoginPage() {
         
         <form className="flex flex-col space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Correo Electrónico
-            </label>
-            <input 
-              type="email" 
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full rounded-lg border border-gray-300 p-3 text-gray-800 focus:outline-none focus:border-blue-500"
-              placeholder="tu@correo.com"
-              required
-            />
+            <label className="block text-sm font-medium text-gray-700 mb-1">Correo Electrónico</label>
+            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full rounded-lg border border-gray-300 p-3 text-gray-800 focus:outline-none focus:border-blue-500" placeholder="tu@correo.com" required />
           </div>
-
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Contraseña
-            </label>
-            <input 
-              type="password" 
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full rounded-lg border border-gray-300 p-3 text-gray-800 focus:outline-none focus:border-blue-500"
-              placeholder="******"
-              required
-            />
+            <label className="block text-sm font-medium text-gray-700 mb-1">Contraseña</label>
+            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} className="w-full rounded-lg border border-gray-300 p-3 text-gray-800 focus:outline-none focus:border-blue-500" placeholder="******" required />
           </div>
-
-          {mensaje && (
-            <div className="text-sm text-center font-medium text-blue-600 bg-blue-50 p-2 rounded">
-              {mensaje}
-            </div>
-          )}
-
+          {mensaje && <div className="text-sm text-center font-medium text-blue-600 bg-blue-50 p-2 rounded">{mensaje}</div>}
           <div className="pt-4 flex flex-col space-y-3">
-            <button 
-              onClick={handleLogin}
-              className="w-full bg-black text-white p-3 rounded-lg hover:bg-gray-800 font-medium transition-colors"
-            >
-              Iniciar Sesión
-            </button>
-            
-            <button 
-              onClick={handleSignUp}
-              className="w-full bg-gray-200 text-gray-800 p-3 rounded-lg hover:bg-gray-300 font-medium transition-colors"
-            >
-              Crear Cuenta Nueva
-            </button>
+            <button onClick={handleLogin} className="w-full bg-black text-white p-3 rounded-lg hover:bg-gray-800 font-medium transition-colors">Iniciar Sesión</button>
+            <button onClick={handleSignUp} className="w-full bg-gray-200 text-gray-800 p-3 rounded-lg hover:bg-gray-300 font-medium transition-colors">Crear Cuenta Nueva</button>
           </div>
         </form>
       </div>
